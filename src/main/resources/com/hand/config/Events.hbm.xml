@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015-8-20 23:30:34 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.hand.pojo.Events" table="events" catalog="sakila">
+        <id name="eventId" type="java.lang.Integer">
+            <column name="EVENT_ID" />
+            <generator class="identity" />
+        </id>
+        <property name="eventDate" type="timestamp">
+            <column name="EVENT_DATE" length="19" />
+        </property>
+        <property name="title" type="string">
+            <column name="title" />
+        </property>
+        <property name="insetd" type="string">
+            <column name="insetd" />
+        </property>
+        <set name="doTabls" table="do_tabl" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="event_id" not-null="true" />
+            </key>
+            <one-to-many class="com.hand.pojo.DoTabl" />
+        </set>
+        <set name="foodTabs" table="food_tab" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="event_id" not-null="true" />
+            </key>
+            <one-to-many class="com.hand.pojo.FoodTab" />
+        </set>
+        <set name="hobbyTabs" table="hobby_tab" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="stu_id" not-null="true" />
+            </key>
+            <one-to-many class="com.hand.pojo.HobbyTab" />
+        </set>
+        <set name="phoneTabs" table="phone_tab" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="event_id" not-null="true" />
+            </key>
+            <one-to-many class="com.hand.pojo.PhoneTab" />
+        </set>
+    </class>
+</hibernate-mapping>

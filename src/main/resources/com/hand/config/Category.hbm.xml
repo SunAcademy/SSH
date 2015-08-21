@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015-8-20 23:30:34 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.hand.pojo.Category" table="category" catalog="sakila">
+        <id name="categoryId" type="java.lang.Byte">
+            <column name="category_id" />
+            <generator class="identity" />
+        </id>
+        <property name="name" type="string">
+            <column name="name" length="25" not-null="true" />
+        </property>
+        <property name="lastUpdate" type="timestamp">
+            <column name="last_update" length="19" not-null="true" />
+        </property>
+        <set name="filmCategories" table="film_category" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="category_id" not-null="true" />
+            </key>
+            <one-to-many class="com.hand.pojo.FilmCategory" />
+        </set>
+    </class>
+</hibernate-mapping>

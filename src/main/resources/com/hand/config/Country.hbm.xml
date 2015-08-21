@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015-8-20 23:30:34 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.hand.pojo.Country" table="country" catalog="sakila">
+        <id name="countryId" type="java.lang.Short">
+            <column name="country_id" />
+            <generator class="foreign">
+                <param name="property">city</param>
+            </generator>
+        </id>
+        <one-to-one name="city" class="com.hand.pojo.City" constrained="true"></one-to-one>
+        <property name="country" type="string">
+            <column name="country" length="50" not-null="true" />
+        </property>
+        <property name="lastUpdate" type="timestamp">
+            <column name="last_update" length="19" not-null="true" />
+        </property>
+        <set name="cities" table="city" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="country_id" not-null="true" />
+            </key>
+            <one-to-many class="com.hand.pojo.City" />
+        </set>
+    </class>
+</hibernate-mapping>

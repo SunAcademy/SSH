@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015-8-20 23:30:34 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.hand.pojo.Film" table="film" catalog="sakila">
+        <id name="film_id" type="java.lang.Short">
+            <column name="film_id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="languageByLanguageId" class="com.hand.pojo.Language" fetch="select">
+            <column name="language_id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="languageByOriginalLanguageId" class="com.hand.pojo.Language" fetch="select">
+            <column name="original_language_id" />
+        </many-to-one>
+        <property name="title" type="string">
+            <column name="title" not-null="true" />
+        </property>
+        <property name="description" type="string">
+            <column name="description" length="65535" />
+        </property>
+        <property name="releaseYear" type="date">
+            <column name="release_year" length="0" />
+        </property>
+        <property name="rentalDuration" type="byte">
+            <column name="rental_duration" not-null="true" />
+        </property>
+        <property name="rentalRate" type="big_decimal">
+            <column name="rental_rate" precision="4" not-null="true" />
+        </property>
+        <property name="length" type="java.lang.Short">
+            <column name="length" />
+        </property>
+        <property name="replacementCost" type="big_decimal">
+            <column name="replacement_cost" precision="5" not-null="true" />
+        </property>
+        <property name="rating" type="string">
+            <column name="rating" length="5" />
+        </property>
+        <property name="specialFeatures" type="string">
+            <column name="special_features" length="54" />
+        </property>
+        <property name="lastUpdate" type="timestamp">
+            <column name="last_update" length="19" not-null="true" />
+        </property>
+        <property name="id" type="int">
+            <column name="id" not-null="true" />
+        </property>
+        <property name="desciption" type="string">
+            <column name="desciption" />
+        </property>
+        <property name="languangeId" type="java.lang.Integer">
+            <column name="languange_id" />
+        </property>
+        <set name="inventories" table="inventory" inverse="true" lazy="true" fetch="select" cascade="all" >
+            <key>
+                <column name="film_id" not-null="true" />
+            </key>
+            <one-to-many class="com.hand.pojo.Inventory" />
+        </set>
+        <set name="filmActors" table="film_actor" inverse="true" lazy="true" fetch="select" cascade="all">
+            <key>
+                <column name="film_id" not-null="true" />
+            </key>
+            <one-to-many class="com.hand.pojo.FilmActor" />
+        </set>
+        <set name="filmCategories" table="film_category" inverse="true" lazy="true" fetch="select" cascade="all">
+            <key>
+                <column name="film_id" not-null="true" />
+            </key>
+            <one-to-many class="com.hand.pojo.FilmCategory" />
+        </set>
+    </class>
+</hibernate-mapping>

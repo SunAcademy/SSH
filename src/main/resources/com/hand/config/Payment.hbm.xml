@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015-8-20 23:30:34 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.hand.pojo.Payment" table="payment" catalog="sakila">
+        <id name="paymentId" type="java.lang.Short">
+            <column name="payment_id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="customer" class="com.hand.pojo.Customer" fetch="select">
+            <column name="customer_id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="rental" class="com.hand.pojo.Rental" fetch="select">
+            <column name="rental_id" />
+        </many-to-one>
+        <many-to-one name="staff" class="com.hand.pojo.Staff" fetch="select">
+            <column name="staff_id" not-null="true" />
+        </many-to-one>
+        <property name="amount" type="big_decimal">
+            <column name="amount" precision="5" not-null="true" />
+        </property>
+        <property name="paymentDate" type="timestamp">
+            <column name="payment_date" length="19" not-null="true" />
+        </property>
+        <property name="lastUpdate" type="timestamp">
+            <column name="last_update" length="19" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

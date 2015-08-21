@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015-8-20 23:30:34 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.hand.pojo.NicerButSlowerFilmList" table="nicer_but_slower_film_list" catalog="sakila">
+        <composite-id name="id" class="com.hand.pojo.NicerButSlowerFilmListId">
+            <key-property name="fid" type="java.lang.Short">
+                <column name="FID" />
+            </key-property>
+            <key-property name="title" type="string">
+                <column name="title" />
+            </key-property>
+            <key-property name="description" type="string">
+                <column name="description" length="65535" />
+            </key-property>
+            <key-property name="category" type="string">
+                <column name="category" length="25" />
+            </key-property>
+            <key-property name="price" type="big_decimal">
+                <column name="price" precision="4" />
+            </key-property>
+            <key-property name="length" type="java.lang.Short">
+                <column name="length" />
+            </key-property>
+            <key-property name="rating" type="string">
+                <column name="rating" length="5" />
+            </key-property>
+            <key-property name="actors" type="string">
+                <column name="actors" length="341" />
+            </key-property>
+        </composite-id>
+    </class>
+</hibernate-mapping>

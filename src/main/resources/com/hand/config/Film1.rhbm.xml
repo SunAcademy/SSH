@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE hibernate-mapping PUBLIC  
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">  
+  
+<hibernate-mapping>  
+  
+    <class name="com.hand.pojo.Film" table="film">  
+        <id name="film_id" column="film_id">  
+            <generator class="native" />  
+        </id>  
+       
+       <property name="title" type="string"></property>
+       <property name="description" type="string"></property>
+       <property name="release_year" type="int"></property>
+       <property name="language_id" type="int"></property>
+       <property name="original_language_id" type="java.lang.Integer"></property>
+       <property name="rental_duration" type="int"></property>
+       <property name="rental_rate" type="double"></property>
+       <property name="length" type="int"></property>
+       <property name="replacement_cost" type="double"></property>
+       <property name="rating" type="string"></property>
+       <property name="special_features" type="string"></property>
+       <property name="last_update" type="timestamp"></property>
+       <property name="id" type="int"></property>
+       <property name="desciption" type="string"></property>
+       <property name="languange_id" type="java.lang.Integer"></property>
+ 
+        
+
+       
+<!-- 
+        <set name="city" >
+        <key column="city_id"></key>
+        <one-to-many  class="com.hand.City"></one-to-many>
+       
+        </set>
+ -->
+        
+    </class>  
+    
+
+    
+
+</hibernate-mapping>

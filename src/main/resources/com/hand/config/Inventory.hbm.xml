@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015-8-20 23:30:34 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.hand.pojo.Inventory" table="inventory" catalog="sakila">
+        <id name="inventoryId" type="java.lang.Integer">
+            <column name="inventory_id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="film" class="com.hand.pojo.Film" fetch="select">
+            <column name="film_id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="store" class="com.hand.pojo.Store" fetch="select">
+            <column name="store_id" not-null="true" />
+        </many-to-one>
+        <property name="lastUpdate" type="timestamp">
+            <column name="last_update" length="19" not-null="true" />
+        </property>
+        <set name="rentals" table="rental" inverse="true" lazy="true" fetch="select" cascade="all">
+            <key>
+                <column name="inventory_id" not-null="true" />
+            </key>
+            <one-to-many class="com.hand.pojo.Rental" />
+        </set>
+    </class>
+</hibernate-mapping>

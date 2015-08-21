@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+    <context:annotation-config />
+
+    <!-- 读取jdbc.properties配置文件 -->
+    <context:property-placeholder location="classpath:dbconfig.properties" />
+    
+    <bean id="filmAction" class="com.hand.action.testAction" scope="prototype"></bean>
+
+    <!-- 配置数据源 -->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+        destroy-method="close">
+        <property name="driverClass" value="${driverClassName}" />
+        <property name="jdbcUrl" value="${url}" />
+        <property name="user" value="${username}" />
+        <property name="password" value="${password}" />
+        <!-- 连接池启动时的初始值 -->
+        <property name="initialPoolSize" value="${initialSize}" />
+        <!-- 连接池的最大值 -->
+        <property name="maxStatements" value="${maxActive}" />
+        <!-- 最大空闲值.当经过一个高峰时间后，连接池可以慢慢将已经用不到的连接慢慢释放一部分，一直减少到maxIdle为止 -->
+        <property name="maxIdleTime" value="${maxIdle}" />
+        <!--  最小空闲值.当空闲的连接数少于阀值时，连接池就会预申请去一些连接，以免洪峰来时来不及申请 -->
+        <property name="minPoolSize" value="${minIdle}" />
+    </bean>
+
+    <bean id="sessionFactory"
+        class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+        <!-- 配置SessionFactory所需的数据源，注入上面定义的dataSource -->
+        <property name="dataSource" ref="dataSource" />
+
+
+
+        
+        <!-- mappingResources属性用来列出全部映射文件 -->
+        <property name="mappingLocations">
+            <list>
+                <!-- 配置所有PO映射文件 -->
+                <value>classpath:/com/hand/config/*.hbm.xml </value>
+
+            </list>
+        </property>
+
+        <!-- 定义hibernate的SessionFactory的属性 -->
+        <property name="hibernateProperties">
+            <value>
+                hibernate.dialect=org.hibernate.dialect.MySQL5Dialect
+                hibernate.hbm2ddl.auto=update
+                hibernate.show_sql=true
+                hibernate.format_sql=true
+                hibernate.cache.use_second_level_cache=true
+                hibernate.cache.use_query_cache=false
+                hibernate.cache.provider_class=org.hibernate.cache.EhCacheProvider
+            </value>
+            
+
+        </property>
+    </bean>
+    
+    	<!-- hibernate事物开始 -->
+	<bean id="hibernateTransactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory">
+			<ref local="sessionFactory" />
+		</property>
+	</bean>
+	
+	
+
+    <!-- 配置Hibernate的局部事务管理器，使用HibernateTransactionManager类 -->
+    <!-- 该类是PlatformTransactionManager接口对采用Hibernate的特定实现类 -->
+    <bean id="txManager"
+        class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    
+	<tx:advice id="txAdvice" transaction-manager="hibernateTransactionManager">
+		<tx:attributes>
+			<tx:method name="store*" propagation="REQUIRED" />
+			<tx:method name="add*" propagation="REQUIRED" />
+			<tx:method name="save*" propagation="REQUIRED" />
+			<tx:method name="update*" propagation="REQUIRED" />
+			<tx:method name="delete*" propagation="REQUIRED" />
+		</tx:attributes>
+	</tx:advice>
+	
+	
+
+    <!-- 采用注解方式配置事务 -->
+    <tx:annotation-driven transaction-manager="txManager" />
+    
+    
+    	<aop:config proxy-target-class="true">
+		<aop:pointcut id="allServiceMethod"
+			expression="execution(* com.hand.*.*(..))" />
+		<aop:advisor pointcut-ref="allServiceMethod" advice-ref="txAdvice" />
+	</aop:config>
+
+    <bean id="films" class="com.hand.impl.FilmServiceImpl"></bean>
+
+</beans>

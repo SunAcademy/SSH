@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015-8-20 23:30:34 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.hand.pojo.SalesByStore" table="sales_by_store" catalog="sakila">
+        <composite-id name="id" class="com.hand.pojo.SalesByStoreId">
+            <key-property name="store" type="string">
+                <column name="store" length="101" />
+            </key-property>
+            <key-property name="manager" type="string">
+                <column name="manager" length="91" />
+            </key-property>
+            <key-property name="totalSales" type="big_decimal">
+                <column name="total_sales" precision="27" />
+            </key-property>
+        </composite-id>
+    </class>
+</hibernate-mapping>

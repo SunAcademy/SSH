@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015-8-20 23:30:34 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.hand.pojo.Customer" table="customer" catalog="sakila">
+        <id name="customerId" type="java.lang.Short">
+            <column name="customer_id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="store" class="com.hand.pojo.Store" fetch="select">
+            <column name="store_id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="address" class="com.hand.pojo.Address" fetch="select">
+            <column name="address_id" not-null="true" />
+        </many-to-one>
+        <property name="firstName" type="string">
+            <column name="first_name" length="45" not-null="true" />
+        </property>
+        <property name="lastName" type="string">
+            <column name="last_name" length="45" not-null="true" />
+        </property>
+        <property name="email" type="string">
+            <column name="email" length="50" />
+        </property>
+        <property name="active" type="boolean">
+            <column name="active" not-null="true" />
+        </property>
+        <property name="createDate" type="timestamp">
+            <column name="create_date" length="19" not-null="true" />
+        </property>
+        <property name="lastUpdate" type="timestamp">
+            <column name="last_update" length="19" not-null="true" />
+        </property>
+        <set name="payments" table="payment" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="customer_id" not-null="true" />
+            </key>
+            <one-to-many class="com.hand.pojo.Payment" />
+        </set>
+        <set name="rentals" table="rental" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="customer_id" not-null="true" />
+            </key>
+            <one-to-many class="com.hand.pojo.Rental" />
+        </set>
+        <set name="stores" table="store" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="address_id" not-null="true" />
+            </key>
+            <one-to-many class="com.hand.pojo.Store" />
+        </set>
+    </class>
+</hibernate-mapping>
